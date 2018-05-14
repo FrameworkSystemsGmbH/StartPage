@@ -1,0 +1,25 @@
+.modal {
+    text-align: left;
+    overflow: auto;
+}
+
+@media (min-width: 768px) {
+    #error-modal .modal-dialog {
+        width: 80%;
+        max-width: 1000px;
+    }
+}
+
+#error-modal .modal-dialog #error-stacktrace {
+    word-wrap: break-word;
+    white-space: pre-line;
+}
+
+#error-modal .modal-footer {
+    margin-top: 0px;
+}
+
+#error-modal .error-modal-content {
+    color: #333;
+    margin-bottom: 0px;
+}
