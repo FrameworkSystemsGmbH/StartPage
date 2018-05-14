@@ -15,7 +15,7 @@ $(document).ready(function() {
 
     var currentUrl = window.location.href;
 
-    baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('broker/start'));
+    baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('start'));
 
     fnInitialize();
 });
@@ -53,7 +53,7 @@ function fnOnAjaxErrorGlobal(event, xhr, settings, error) {
 }
 
 function fnInitialize() {
-    $.getJSON(baseUrl + 'broker/data', function(data) {
+    $.getJSON(baseUrl + 'start/data', function(data) {
         title = data.title;
         languages = data.languages;
         themes = data.themes;
@@ -269,7 +269,7 @@ function fnCreateLink(download, success, error, complete) {
     }
 
     $.ajax({
-        url: baseUrl + 'broker/link',
+        url: baseUrl + 'start/link',
         type: "POST",
         data: JSON.stringify(startLinkJson),
         contentType: "application/json; charset=utf-8",
