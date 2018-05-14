@@ -10,7 +10,7 @@
   "license": "none",
   "readme": "readme.md",
   "scripts": {
-    "build": "del-cli \"dist\" && mkdirp \"dist\" && bestzip \"dist/StartPage.zip\" \"plain/*\""
+    "build": "del-cli \"dist\" && mkdirp \"dist\" && bestzip \"dist/StartPage.zip\" \"src/*\""
   },
   "devDependencies": {
     "bestzip": "^1.1.4",
