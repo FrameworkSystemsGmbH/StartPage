@@ -2,132 +2,106 @@
 <html>
 
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 
-    <title>Client Start</title>
+  <title>Client Start</title>
 
-    <link href="css/normalize.css" type="text/css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-    <link href="css/styles.css" type="text/css" rel="stylesheet" />
-    <link href="css/styles.modal.css" type="text/css" rel="stylesheet" />
-    <link href="css/styles.selectlist.css" type="text/css" rel="stylesheet" />
+  <link href="styles.css" type="text/css" rel="stylesheet" />
 
-    <script src="js/jquery.min.js" type="text/javascript"></script>
-    <script src="js/jquery.equalize.js" type="text/javascript"></script>
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="js/scripts.js" type="text/javascript"></script>
+  <script src="jquery.min.js" type="text/javascript"></script>
+  <script src="scripts.js" type="text/javascript"></script>
 </head>
 
 <body>
-    <div class="outer">
-        <div class="middle">
-            <div id="loading" class="inner well strong-border gradientsilver">
-                <center><strong>Loading...</strong></center>
-            </div>
-            <div id="content" class="inner well strong-border gradientsilver hidden">
-                <h3 id="application-name" class="headline"></h3>
-                <div class="row equalheight">
-                    <div class="col-xs-6">
-                        <div class="panel panel-default inline">
-                            <div class="panel-heading">Language</div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <h5 class="headline">Default</h5>
-                                        <div id="lang-wrapper-1">
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <h5 class="headline">1. Fallback</h5>
-                                        <div id="lang-wrapper-2">
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <h5 class="headline">2. Fallback</h5>
-                                        <div id="lang-wrapper-3">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-3">
-                        <div class="panel panel-default inline">
-                            <div class="panel-heading">Theme</div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <h5 class="headline">Choose</h5>
-                                        <div id="themes-wrapper">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-3">
-                        <div class="panel panel-default inline">
-                            <div class="panel-heading">Look &amp; Feel</div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <h5 class="headline">Choose</h5>
-                                        <div id="lookfeel-wrapper">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom: 20px;">
-                    <div class="col-xs-12">
-                        <h5 class="linkheadline">Start Link</h5>
-                        <input id="link" type="text" class="form-control" readonly="true" placeholder="Please specify start options above!" onFocus="this.select();" />
-                    </div>
-                </div>
-                <div id="nolicense" class="row hidden">
-                    <div class="col-xs-12">
-                        <div class="alert alert-danger" role="alert"><strong>License File is missing!</strong></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <button id="start-button" type="button" class="btn btn-success">Start Application</button>
-                        <button id="download-button" type="button" class="btn btn-default">Download JNLP</button>
-                    </div>
-                </div>
-            </div>
-            <div id="error-modal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content" style="color: #333;">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h3 id="error-title" class="modal-title"></h3>
-                        </div>
-                        <div class="modal-body">
-                            <div class="alert alert-danger error-modal-content">
-                                <h3 style="margin-top: 0px;">An error occured while processing your request!</h3>
-                                <h4>Message:</h4>
-                                <p><span id="error-message" style="white-space: pre-line; word-wrap: break-word;"></span></p>
-                                <h4 style="margin-top: 10px;">Stacktrace:</h4>
-                                <p><span id="error-stacktrace" style="white-space: pre-line; word-wrap: break-word;"></span></p>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="sp-wrapper-outer">
+    <div class="sp-wrapper-inner">
+      <div id="sp-loading">
+        <strong>Loading...</strong>
+      </div>
+      <div id="sp-content" class="hidden">
+        <div class="sp-row">
+          <h3 id="sp-app-name" class="sp-headline"></h3>
         </div>
-    </div>
+        <div id="sp-clients-row" class="sp-row">
+          <div class="sp-panel">
+            <div class="sp-panel-header">
+              Client
+            </div>
+            <div class="sp-panel-content">
+              <div id="sp-clients-wrapper">
 
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-panel">
+            <div class="sp-panel-header">
+              Language
+            </div>
+            <div class="sp-panel-content">
+              <div class="sp-row sp-row-lang">
+                <div id="sp-panel-lang-1">
+                  <h4 class="sp-headline">Default</h4>
+                  <div id="sp-lang-wrapper-1">
+
+                  </div>
+                </div>
+                <div id="sp-panel-lang-2">
+                  <h4 class="sp-headline">1. Fallback</h4>
+                  <div id="sp-lang-wrapper-2">
+
+                  </div>
+                </div>
+                <div id="sp-panel-lang-3">
+                  <h4 class="sp-headline">2. Fallback</h4>
+                  <div id="sp-lang-wrapper-3">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="sp-java-row" class="sp-row">
+          <div class="sp-panel">
+            <div class="sp-panel-header">
+              Theme
+            </div>
+            <div class="sp-panel-content">
+              <div id="sp-themes-wrapper">
+
+              </div>
+            </div>
+          </div>
+          <div class="sp-panel">
+            <div class="sp-panel-header">
+              Look &amp; Feel
+            </div>
+            <div class="sp-panel-content">
+              <div id="sp-lookfeel-wrapper">
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sp-row">
+          <div>
+            <h5 class="sp-link-headline">Start Link</h5>
+            <input id="sp-link" type="text" class="form-control" readonly="true" placeholder="Please specify start options" onFocus="this.select();" />
+          </div>
+        </div>
+        <div id="sp-no-license" class="sp-row hidden">
+          <div class="alert">
+            <strong>License File is missing!</strong>
+          </div>
+        </div>
+        <div class="sp-row">
+          <a id="sp-start-link" href="#" class="button">Start Application</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
