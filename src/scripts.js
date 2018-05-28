@@ -127,7 +127,7 @@ function setLanguages3(langPreset3) {
 
   if (languages && languages.length > 2) {
     if ($('#sp-lang-list-1').has('li[selected]').length && $('#sp-lang-list-2').has('li[selected]').length) {
-      $('#sp-lang-wrapper-3').append('<ul id="sp-lang-list-3" class="select-list"></ul>');
+      $('#sp-lang-wrapper-3').append('<ul id="sp-lang-list-3" class="sp-select-list"></ul>');
 
       languages.forEach(function (language) {
         if ($('#sp-lang-list-1 li[selected]').attr('iso') !== language.iso && $('#sp-lang-list-2 li[selected]').attr('iso') !== language.iso) {
