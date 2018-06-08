@@ -73,7 +73,7 @@ function setClients(presetClient) {
   $('#sp-clients-wrapper').empty();
   $('#sp-clients-wrapper').append('<ul id="sp-clients-list" class="sp-select-list"></ul>');
   $('#sp-clients-list').append('<li client="java" ' + (presetClient === 'java' ? ' selected="selected"' : '') + '>Java</li>');
-  $('#sp-clients-list').append('<li client="html" ' + (presetClient === 'html' ? ' selected="selected"' : '') + '>Html</li>');
+  $('#sp-clients-list').append('<li client="html" ' + (presetClient === 'html' ? ' selected="selected"' : '') + '>Html (Beta)</li>');
   $('#sp-clients-list').on('click', 'li:not([selected])', clientSelectedChanged);
 }
 
