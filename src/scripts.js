@@ -13,7 +13,7 @@ $(document).ready(function () {
   });
 
   var currentUrl = window.location.href;
-  currentUrl = 'http://localhost:8080/Dev/NV286_1_FS40_FS40_4.0_user1/FS40Application/start';
+
   baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('start'));
 
   initialize();
