@@ -13,7 +13,7 @@ $(document).ready(function () {
   });
 
   var currentUrl = window.location.href;
-
+  currentUrl = 'http://localhost:8080/Dev/NV286_1_FS40_FS40_4.0_user1/FS40Application/start';
   baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('start'));
 
   initialize();
@@ -208,10 +208,12 @@ function setControlsEnabled() {
       var client = $('#sp-clients-list li[selected]:first').attr('client');
 
       if (client === 'html') {
+        $('#sp-download-link').hide(0);
         $('#sp-java-row').hide(200);
         $('#sp-start-link').attr('target', '_blank');
       } else {
         $('#sp-java-row').show(200);
+        $('#sp-download-link').show(0);
       }
     }
   }
@@ -222,15 +224,18 @@ function refreshLink() {
     function (link) {
       $('#sp-link').attr('value', link);
       $('#sp-start-link').attr('href', link);
+      $('#sp-download-link').attr('href', link + '&dl=1');
     },
     function () {
       $('#sp-link').removeAttr('value');
       $('#sp-start-link').removeAttr('href');
+      $('#sp-download-link').removeAttr('href')
     },
     function () {
       if (nolicense) {
         $('#sp-link').removeAttr('value');
         $('#sp-start-link').removeAttr('href');
+        $('#sp-download-link').removeAttr('href')
       }
     }
   );
@@ -306,6 +311,7 @@ function checkLicense() {
 
 function setButtonEnabled(enabled) {
   $('#sp-start-link').attr('disabled', enabled ? false : true);
+  $('#sp-download-link').attr('disabled', enabled ? false : true);
 }
 
 function setContentVisible() {

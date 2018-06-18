@@ -67,7 +67,7 @@ body {
 }
 
 .sp-row > * {
-  flex: 1 0 auto;
+  flex: 1 1 100%;
   margin-left: 0.5em;
   margin-right: 0.5em;
 }
