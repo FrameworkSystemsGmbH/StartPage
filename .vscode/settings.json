@@ -1,0 +1,23 @@
+{
+  "editor.smoothScrolling": true,
+  "editor.tabSize": 2,
+  "editor.wordWrap": "off",
+  "editor.wrappingIndent": "indent",
+
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+
+  "html.format.endWithNewline": true,
+  "html.format.maxPreserveNewLines": 1,
+  "html.format.wrapLineLength": 0,
+  "html.suggest.angular1": false,
+  "html.suggest.ionic": false,
+
+  "search.exclude": {
+    "**/dist": true,
+    "**/node_modules": true
+  },
+
+  "telemetry.enableTelemetry": false,
+  "telemetry.enableCrashReporter": false,
+}
