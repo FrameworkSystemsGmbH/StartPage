@@ -208,24 +208,8 @@ input[readonly] {
   border-bottom: 1px solid #333;
 }
 
-.sp-link-headline {
-  font-size: 1em;
-  font-weight: bold;
-  margin-top: 0;
-  margin-bottom: 0.3em;
-}
-
 #sp-app-name {
   margin-bottom: 0;
-}
-
-#sp-link {
-  width: 100%;
-  cursor: pointer;
-}
-
-#sp-link:focus {
-  cursor: text;
 }
 
 .alert {

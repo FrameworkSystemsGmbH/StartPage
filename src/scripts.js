@@ -32,7 +32,7 @@ function initialize() {
     var presetTheme = getUrlParameter('themeid');
 
     if (!presetClient) {
-      presetClient = 'java';
+      presetClient = window.navigator.userAgent.toLowerCase().indexOf('windows') >= 0 ? 'fsclient' : 'java';
     }
 
     if (!presetTheme) {
@@ -56,6 +56,7 @@ function initialize() {
     setLanguages1(langPreset1, langPreset2, langPreset3);
     setThemes(presetTheme);
     setLookFeels();
+    setDownloadButtonText();
     setControlsEnabled();
     refreshLink();
     checkLicense();
@@ -72,7 +73,8 @@ function setTitle() {
 function setClients(presetClient) {
   $('#sp-clients-wrapper').empty();
   $('#sp-clients-wrapper').append('<ul id="sp-clients-list" class="sp-select-list"></ul>');
-  $('#sp-clients-list').append('<li client="java" ' + (presetClient === 'java' ? ' selected="selected"' : '') + '>Java</li>');
+  $('#sp-clients-list').append('<li client="fsclient" ' + (presetClient === 'fsclient' ? ' selected="selected"' : '') + '>Client Launcher</li>');
+  $('#sp-clients-list').append('<li client="java" ' + (presetClient === 'java' ? ' selected="selected"' : '') + '>Java Web Start</li>');
   $('#sp-clients-list').append('<li client="html" ' + (presetClient === 'html' ? ' selected="selected"' : '') + '>Html (Beta)</li>');
   $('#sp-clients-list').on('click', 'li:not([selected])', clientSelectedChanged);
 }
@@ -80,6 +82,7 @@ function setClients(presetClient) {
 function clientSelectedChanged() {
   $('#sp-clients-list li').removeAttr('selected');
   $(this).attr('selected', true);
+  setDownloadButtonText();
   setControlsEnabled();
   refreshLink();
 }
@@ -196,25 +199,35 @@ function lookFeelSelectedChanged() {
   refreshLink();
 }
 
+function setDownloadButtonText() {
+  if ($('#sp-clients-list').has('li[selected]').length) {
+    var client = $('#sp-clients-list li[selected]:first').attr('client');
+
+    if (client === 'fsclient') {
+      $('#sp-download-link').html('Download Start File');
+    } else {
+      $('#sp-download-link').html('Download Jnlp');
+    }
+  }
+}
+
 function setControlsEnabled() {
   $('#sp-start-link').removeAttr('target');
+  $('#sp-start-link').show(0);
+  $('#sp-download-link').show(0);
 
-  if (!supportsHtml) {
-    $('#sp-clients-row').addClass('hidden');
-  } else {
-    $('#sp-clients-row').removeClass('hidden');
+  if ($('#sp-clients-list').has('li[selected]').length) {
+    var client = $('#sp-clients-list li[selected]:first').attr('client');
 
-    if ($('#sp-clients-list').has('li[selected]').length) {
-      var client = $('#sp-clients-list li[selected]:first').attr('client');
-
-      if (client === 'html') {
-        $('#sp-download-link').hide(0);
-        $('#sp-java-row').hide(200);
-        $('#sp-start-link').attr('target', '_blank');
-      } else {
-        $('#sp-java-row').show(200);
-        $('#sp-download-link').show(0);
-      }
+    if (client === 'html') {
+      $('#sp-start-link').attr('target', '_blank');
+      $('#sp-download-link').hide(0);
+      $('#sp-java-row').hide(200);
+    } else if (client == 'java') {
+      $('#sp-java-row').show(200);
+    } else {
+      $('#sp-start-link').hide(0);
+      $('#sp-java-row').show(200);
     }
   }
 }
@@ -222,18 +235,15 @@ function setControlsEnabled() {
 function refreshLink() {
   createLink(
     function (link) {
-      $('#sp-link').attr('value', link);
       $('#sp-start-link').attr('href', link);
       $('#sp-download-link').attr('href', link + '&dl=1');
     },
     function () {
-      $('#sp-link').removeAttr('value');
       $('#sp-start-link').removeAttr('href');
       $('#sp-download-link').removeAttr('href')
     },
     function () {
       if (nolicense) {
-        $('#sp-link').removeAttr('value');
         $('#sp-start-link').removeAttr('href');
         $('#sp-download-link').removeAttr('href')
       }

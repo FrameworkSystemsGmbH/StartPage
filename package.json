@@ -11,10 +11,10 @@
   "readme": "readme.md",
   "scripts": {
     "serve": "live-server \"./src\" --port=4200 --watch=\"./src\" --no-browser",
-    "build": "del-cli \"dist\" && mkdirp \"dist\" && bestzip \"dist/StartPage.zip\" \"src/*\""
+    "build": "del-cli \"dist\" && mkdirp \"dist\" && cd src && bestzip \"../dist/StartPage.zip\" *"
   },
   "devDependencies": {
-    "bestzip": "1.1.4",
+    "bestzip": "2.0.0",
     "del-cli": "1.1.0",
     "http-server": "0.11.1",
     "live-server": "1.2.0",
