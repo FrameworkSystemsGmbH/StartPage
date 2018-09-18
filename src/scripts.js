@@ -16,6 +16,8 @@ $(document).ready(function () {
 
   baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('start'));
 
+  baseUrl = 'http://localhost:8080/Dev/NV286_1_FS40_FS40_4.0_user1/FS40Application/';
+
   initialize();
 });
 
@@ -188,8 +190,8 @@ function themeSelectedChanged() {
 function setLookFeels() {
   $('#sp-lookfeel-wrapper').empty();
   $('#sp-lookfeel-wrapper').append('<ul id="sp-lookfeel-list" class="sp-select-list"></ul>');
-  $('#sp-lookfeel-list').append('<li metal="false" selected="selected">Default</li>');
-  $('#sp-lookfeel-list').append('<li metal="true">Metal</li>');
+  $('#sp-lookfeel-list').append('<li metal="1" selected="selected">Default</li>');
+  $('#sp-lookfeel-list').append('<li metal="0">Metal</li>');
   $('#sp-lookfeel-list').on('click', 'li:not([selected])', lookFeelSelectedChanged);
 }
 
@@ -223,38 +225,29 @@ function setControlsEnabled() {
       $('#sp-start-link').attr('target', '_blank');
       $('#sp-download-link').hide(0);
       $('#sp-java-row').hide(200);
-    } else if (client == 'java') {
-      $('#sp-java-row').show(200);
     } else {
-      $('#sp-start-link').hide(0);
       $('#sp-java-row').show(200);
     }
   }
 }
 
 function refreshLink() {
-  createLink(
-    function (link) {
-      $('#sp-start-link').attr('href', link);
-      $('#sp-download-link').attr('href', link + '&dl=1');
-    },
-    function () {
-      $('#sp-start-link').removeAttr('href');
-      $('#sp-download-link').removeAttr('href')
-    },
-    function () {
-      if (nolicense) {
-        $('#sp-start-link').removeAttr('href');
-        $('#sp-download-link').removeAttr('href')
-      }
-    }
-  );
+  var links = getLinks();
+
+  if (nolicense) {
+    $('#sp-start-link').removeAttr('href');
+    $('#sp-download-link').removeAttr('href');
+  } else {
+    $('#sp-start-link').attr('href', links.startLink);
+    $('#sp-download-link').attr('href', links.downloadLink);
+  }
 }
 
-function createLink(success, error, complete) {
+function getLinks() {
   var client = null;
   var theme = null;
-  var metal = false;
+  var metal = null;
+  var lang = [];
 
   if ($('#sp-clients-list').has('li[selected]').length) {
     client = $('#sp-clients-list li[selected]:first').attr('client');
@@ -271,55 +264,141 @@ function createLink(success, error, complete) {
     metal = $('#sp-lookfeel-list li[selected]:first').attr('metal');
   }
 
-  var startLinkJson = {
-    supportsHtml: supportsHtml,
-    client: client,
-    languages: [],
-    theme: theme,
-    metal: metal
-  };
-
   if ($('#sp-lang-list-1').has('li[selected]').length) {
-    startLinkJson.languages.push({
+    lang.push({
       name: $('#sp-lang-list-1 li[selected]:first').html(),
       iso: $('#sp-lang-list-1 li[selected]:first').attr('iso')
     });
   }
 
   if ($('#sp-lang-list-2').has('li[selected]').length) {
-    startLinkJson.languages.push({
+    lang.push({
       name: $('#sp-lang-list-2 li[selected]:first').html(),
       iso: $('#sp-lang-list-2 li[selected]:first').attr('iso')
     });
   }
 
   if ($('#sp-lang-list-3').has('li[selected]').length) {
-    startLinkJson.languages.push({
+    lang.push({
       name: $('#sp-lang-list-3 li[selected]:first').html(),
       iso: $('#sp-lang-list-3 li[selected]:first').attr('iso')
     });
   }
 
-  $.ajax({
-    url: baseUrl + 'start/link',
-    type: "POST",
-    data: JSON.stringify(startLinkJson),
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: success,
-    error: error,
-    complete: complete
-  });
+  var linkInfo = {
+    lang: lang,
+    theme: theme,
+    metal: metal
+  }
+
+  if (client == 'html') {
+    return getHtmlLinks(linkInfo);
+  } else if (client == 'java') {
+    return getJavaLinks(linkInfo);
+  } else {
+    return getLauncherLinks(linkInfo);
+  }
+}
+
+function getLauncherLinks(linkInfo) {
+  var queryStringStart = [];
+  var queryStringDownload = [];
+
+  queryStringStart.push('title=' + encodeURI(title));
+  queryStringStart.push('broker=' + encodeURI(baseUrl));
+
+  if (linkInfo.lang != null && linkInfo.lang.length > 0) {
+    var langArr = [];
+
+    linkInfo.lang.forEach(function (l) {
+      langArr.push(l.iso);
+    });
+
+    var lang = langArr.join(',');
+
+    queryStringStart.push("language=" + lang);
+    queryStringDownload.push("lang=" + lang);
+  }
+
+  if (linkInfo.theme) {
+    var theme = encodeURI(linkInfo.theme.id);
+    queryStringStart.push("theme=" + theme);
+    queryStringDownload.push("themeid=" + theme);
+  }
+
+  if (linkInfo.metal) {
+    queryStringStart.push("lookAndFeel=" + linkInfo.metal);
+    queryStringDownload.push("metal=" + linkInfo.metal);
+  }
+
+  queryStringStart.push("noDomainAuth=false");
+  queryStringDownload.push("nodomainauth=false");
+
+  queryStringDownload.push("dl=1");
+
+  var launcherStartLink = 'fsclientlauncher:launch?' + queryStringStart.join('&');
+  var launcherDownloadLink = baseUrl + 'api/fsclient?' + queryStringDownload.join('&');
+
+  return {
+    startLink: launcherStartLink,
+    downloadLink: launcherDownloadLink
+  };
+}
+
+function getJavaLinks(linkInfo) {
+  var queryString = [];
+
+  if (linkInfo.lang != null && linkInfo.lang.length > 0) {
+    var langArr = [];
+
+    linkInfo.lang.forEach(function (l) {
+      langArr.push(l.iso);
+    });
+
+    queryString.push("lang=" + langArr.join(','));
+  }
+
+  if (linkInfo.theme) {
+    queryString.push("themeid=" + encodeURI(linkInfo.theme.id) + "&themename=" + encodeURI(linkInfo.theme.name));
+  }
+
+  if (linkInfo.metal) {
+    queryString.push("metal=" + linkInfo.metal);
+  }
+
+  queryString.push("nodomainauth=false");
+
+  var javaLink = baseUrl + 'api/jnlp?' + queryString.join('&');
+
+  return {
+    startLink: javaLink,
+    downloadLink: javaLink + '&dl=1'
+  };
+}
+
+function getHtmlLinks(linkInfo) {
+  var htmlLink = null;
+
+  if (linkInfo.lang != null && linkInfo.lang.length > 0) {
+    htmlLink = baseUrl + "html/#/load?" + "lang=" + linkInfo.lang.map(l => l.iso).join(',');
+  } else {
+    htmlLink = baseUrl + "html/#";
+  }
+
+  return {
+    startLink: htmlLink,
+    downloadLink: htmlLink
+  }
 }
 
 function checkLicense() {
   if (nolicense) {
     $('#sp-no-license').removeClass('hidden');
-    setButtonEnabled(false);
+    setButtonsEnabled(false);
   }
 }
 
-function setButtonEnabled(enabled) {
+function setButtonsEnabled(enabled) {
   $('#sp-start-link').attr('disabled', enabled ? false : true);
   $('#sp-download-link').attr('disabled', enabled ? false : true);
 }
