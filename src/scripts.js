@@ -380,7 +380,13 @@ function getHtmlLinks(linkInfo) {
   var htmlLink = null;
 
   if (linkInfo.lang != null && linkInfo.lang.length > 0) {
-    htmlLink = baseUrl + "html/#/load?" + "lang=" + linkInfo.lang.map(l => l.iso).join(',');
+    var langArr = [];
+
+    linkInfo.lang.forEach(function (l) {
+      langArr.push(l.iso);
+    });
+
+    htmlLink = baseUrl + "html/#/load?" + "lang=" + langArr.join(',');
   } else {
     htmlLink = baseUrl + "html/#";
   }
