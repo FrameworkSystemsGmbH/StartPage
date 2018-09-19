@@ -31,6 +31,10 @@ function initialize() {
     var presetLanguages = getUrlParameter('lang');
     var presetTheme = getUrlParameter('themeid');
 
+    if (!supportsHtml && presetClient == 'html') {
+      presetClient = null;
+    }
+
     if (!presetClient) {
       presetClient = window.navigator.userAgent.toLowerCase().indexOf('windows') >= 0 ? 'fsclient' : 'java';
     }
@@ -75,7 +79,11 @@ function setClients(presetClient) {
   $('#sp-clients-wrapper').append('<ul id="sp-clients-list" class="sp-select-list"></ul>');
   $('#sp-clients-list').append('<li client="fsclient" ' + (presetClient === 'fsclient' ? ' selected="selected"' : '') + '>Client Launcher</li>');
   $('#sp-clients-list').append('<li client="java" ' + (presetClient === 'java' ? ' selected="selected"' : '') + '>Java Web Start</li>');
-  $('#sp-clients-list').append('<li client="html" ' + (presetClient === 'html' ? ' selected="selected"' : '') + '>Html (Beta)</li>');
+
+  if (!!supportsHtml) {
+    $('#sp-clients-list').append('<li client="html" ' + (presetClient === 'html' ? ' selected="selected"' : '') + '>Html (Beta)</li>');
+  }
+
   $('#sp-clients-list').on('click', 'li:not([selected])', clientSelectedChanged);
 }
 
