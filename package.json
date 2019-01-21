@@ -10,7 +10,7 @@
   "license": "none",
   "readme": "readme.md",
   "scripts": {
-    "serve": "live-server \"./src\" --port=4200 --watch=\"./src/**/*\" --no-browser",
+    "serve": "live-server \"./src\" --port=4200 --no-browser",
     "build": "del-cli \"dist\" && mkdirp \"dist\" && cd src && bestzip \"../dist/StartPage.zip\" *"
   },
   "devDependencies": {
