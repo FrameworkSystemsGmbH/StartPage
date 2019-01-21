@@ -6,6 +6,7 @@ var supportsHtml;
 var nolicense;
 var languages;
 var themes;
+var support;
 
 $(document).ready(function () {
   $.ajaxSetup({
@@ -30,6 +31,7 @@ function initialize() {
     var presetClient = getUrlParameter('client');
     var presetLanguages = getUrlParameter('lang');
     var presetTheme = getUrlParameter('themeid');
+    var presetSupport = getUrlParameter('support');
 
     if (!supportsHtml && presetClient == 'html') {
       presetClient = null;
@@ -53,6 +55,10 @@ function initialize() {
 
     if (!langPreset1) {
       langPreset1 = 'de';
+    }
+
+    if (presetSupport != null && presetSupport.length && (presetSupport.toLowerCase() === "true" || presetSupport.toLowerCase() === "1")) {
+      support = true;
     }
 
     setTitle();
@@ -224,6 +230,10 @@ function setControlsEnabled() {
   $('#sp-start-link').show(0);
   $('#sp-download-link').show(0);
 
+  if (support) {
+    $('#sp-support').removeClass('hidden');
+  }
+
   if ($('#sp-clients-list').has('li[selected]').length) {
     var client = $('#sp-clients-list li[selected]:first').attr('client');
 
@@ -294,7 +304,8 @@ function getLinks() {
   var linkInfo = {
     lang: lang,
     theme: theme,
-    metal: metal
+    metal: metal,
+    support: support
   }
 
   if (client == 'html') {
@@ -337,6 +348,11 @@ function getLauncherLinks(linkInfo) {
     queryStringDownload.push("metal=" + linkInfo.metal);
   }
 
+  if (linkInfo.support) {
+    queryStringStart.push("support=" + linkInfo.support);
+    queryStringDownload.push("support=" + linkInfo.support);
+  }
+
   queryStringStart.push("noDomainAuth=false");
   queryStringDownload.push("nodomainauth=false");
 
@@ -372,6 +388,10 @@ function getJavaLinks(linkInfo) {
     queryString.push("metal=" + linkInfo.metal);
   }
 
+  if (linkInfo.support) {
+    queryString.push("support=" + linkInfo.support);
+  }
+
   queryString.push("nodomainauth=false");
 
   var javaLink = baseUrl + 'api/jnlp?' + queryString.join('&');
@@ -384,15 +404,24 @@ function getJavaLinks(linkInfo) {
 
 function getHtmlLinks(linkInfo) {
   var htmlLink = null;
+  var queryString = [];
 
-  if (linkInfo.lang != null && linkInfo.lang.length > 0) {
+  if (linkInfo.lang != null && linkInfo.lang.length) {
     var langArr = [];
 
     linkInfo.lang.forEach(function (l) {
       langArr.push(l.iso);
     });
 
-    htmlLink = baseUrl + "html/#/load?" + "lang=" + langArr.join(',');
+    queryString.push("lang=" + langArr.join(','));
+  }
+
+  if (linkInfo.support) {
+    queryString.push("support=" + linkInfo.support);
+  }
+
+  if (queryString.length) {
+    htmlLink = baseUrl + "html/#/load?" + queryString.join("&");
   } else {
     htmlLink = baseUrl + "html/#";
   }
