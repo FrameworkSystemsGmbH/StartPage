@@ -87,7 +87,7 @@ function setClients(presetClient) {
   $('#sp-clients-list').append('<li client="java" ' + (presetClient === 'java' ? ' selected="selected"' : '') + '>Java Web Start</li>');
 
   if (!!supportsHtml) {
-    $('#sp-clients-list').append('<li client="html" ' + (presetClient === 'html' ? ' selected="selected"' : '') + '>Html (Beta)</li>');
+    $('#sp-clients-list').append('<li client="html" ' + (presetClient === 'html' ? ' selected="selected"' : '') + '>Html</li>');
   }
 
   $('#sp-clients-list').on('click', 'li:not([selected])', clientSelectedChanged);

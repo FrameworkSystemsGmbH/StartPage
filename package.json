@@ -14,8 +14,8 @@
     "build": "del-cli \"dist\" && mkdirp \"dist\" && cd src && bestzip \"../dist/StartPage.zip\" *"
   },
   "devDependencies": {
-    "bestzip": "2.1.2",
-    "del-cli": "1.1.0",
+    "bestzip": "2.1.5",
+    "del-cli": "3.0.0",
     "live-server": "1.2.1",
     "mkdirp": "0.5.1"
   }
